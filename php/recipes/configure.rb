@@ -21,4 +21,12 @@ node[:deploy].each do |application, deploy|
       File.exists?("#{deploy[:deploy_to]}/shared/config")
     end
   end
+  template "/etc/php.d/" do
+    cookbook 'php'
+    source 'qs.ini.erb'
+    mode '0644'
+    owner 'root'
+    group 'root'
+    variables(:directives => node['php']['directives'])
+  end
 end
